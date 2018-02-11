@@ -1,18 +1,50 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import{RouterModule,Routes} from '@angular/router';
 
 import { AppComponent } from './app.component';
-
+import { LoginComponent } from './comonenat/login/login.component';
+import { firebaseConfig } from './firebase.config';
+import {AngularFireAuthModule} from 'angularfire2/auth'
+import {AngularFireModule} from 'angularfire2'
+import { FirebaseService } from './services/firebase-service.service';
+import { HomeComponent } from './components/home/home.component';
+import { CategoryComponent } from './components/category/category.component';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { ModalService } from './service/modal.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+const routes: Routes = [
+  {path: 'category', component: CategoryComponent},
+  {path: 'home', component: HomeComponent},
+  {path: '', component: LoginComponent},
+  {path: '**', redirectTo: '/',pathMatch: 'full'}
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    CategoryComponent,
+    AddCategoryComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
+    RouterModule.forRoot(routes),
+    NgbModule.forRoot(),
+    FormsModule,
+    AngularFireDatabaseModule
+
   ],
-  providers: [],
+  entryComponents: [
+    AddCategoryComponent
+  ],
+  providers: [FirebaseService,ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
